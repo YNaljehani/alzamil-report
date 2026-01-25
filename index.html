@@ -2223,160 +2223,129 @@ window.addEventListener('scroll', () => {
 });
 
 // ========================================
-// PDF GENERATION
+// PDF GENERATION - Full Report with Visuals
 // ========================================
 async function generatePDF() {
     const loading = document.getElementById('pdfLoading');
     loading.classList.add('active');
 
     try {
+        // Hide UI elements for clean capture
+        document.querySelector('.sidebar').style.display = 'none';
+        document.querySelector('.topbar').style.display = 'none';
+        document.querySelector('.chat-widget').style.display = 'none';
+        document.querySelector('.progress-bar').style.display = 'none';
+        document.querySelector('.scroll-indicator').style.display = 'none';
+
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF('p', 'mm', 'a4');
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
-        const margin = 15;
-        let yPos = margin;
 
-        // Helper function
-        const addText = (text, size, bold = false, color = [44, 73, 153]) => {
-            pdf.setFontSize(size);
-            pdf.setTextColor(...color);
-            if (bold) pdf.setFont(undefined, 'bold');
-            else pdf.setFont(undefined, 'normal');
-            const lines = pdf.splitTextToSize(text, pageWidth - 2 * margin);
-            lines.forEach(line => {
-                if (yPos > pageHeight - margin) {
-                    pdf.addPage();
-                    yPos = margin;
-                }
-                pdf.text(line, margin, yPos);
-                yPos += size * 0.5;
+        // Get all sections to capture
+        const sections = [
+            document.getElementById('hero'),
+            document.getElementById('executive-summary'),
+            document.getElementById('family-business'),
+            document.getElementById('market-landscape'),
+            document.getElementById('customer-analysis'),
+            document.getElementById('competitor-analysis'),
+            document.getElementById('internal-analysis'),
+            document.getElementById('pestel'),
+            document.getElementById('technology'),
+            document.getElementById('financial'),
+            document.getElementById('conclusion'),
+            document.getElementById('references')
+        ];
+
+        let isFirstPage = true;
+
+        for (const section of sections) {
+            if (!section) continue;
+
+            // Expand collapsibles for PDF
+            section.querySelectorAll('.collapsible').forEach(c => c.classList.add('active'));
+
+            const canvas = await html2canvas(section, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#ffffff',
+                logging: false
             });
-            yPos += 3;
-        };
 
-        // Cover Page
-        pdf.setFillColor(44, 73, 153);
-        pdf.rect(0, 0, pageWidth, pageHeight, 'F');
-        pdf.setTextColor(255, 255, 255);
-        pdf.setFontSize(32);
-        pdf.setFont(undefined, 'bold');
-        pdf.text('MARKET ANALYSIS REPORT', pageWidth/2, 80, {align: 'center'});
-        pdf.setFontSize(16);
-        pdf.setFont(undefined, 'normal');
-        pdf.text('IMC/IFC Challenge 2025-2026', pageWidth/2, 95, {align: 'center'});
-        pdf.setFontSize(14);
-        pdf.text('Al Zamil for Industry, Trading and Transport', pageWidth/2, 120, {align: 'center'});
-        pdf.setFontSize(11);
-        pdf.text('Prepared by: Team 14', pageWidth/2, 150, {align: 'center'});
-        pdf.text('January 2026', pageWidth/2, 160, {align: 'center'});
-        pdf.setFontSize(9);
-        pdf.text('Prince Mohammed Bin Salman College of Business & Entrepreneurship', pageWidth/2, 250, {align: 'center'});
+            const imgData = canvas.toDataURL('image/jpeg', 0.95);
+            const imgWidth = pageWidth - 20;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        // Content pages
-        pdf.addPage();
-        yPos = margin;
+            // Handle multi-page sections
+            let heightLeft = imgHeight;
+            let position = 10;
+            let pageCanvas = canvas;
 
-        addText('1. EXECUTIVE SUMMARY', 18, true);
-        yPos += 5;
-        addText('Al Zamil for Industry, Trading and Transport is a Saudi family business established in 1985, which has grown to become the largest and leading polyethylene water tank manufacturer in the Kingdom of Saudi Arabia. Operating across five regional branches covering the Northern, Central, Eastern, Western, and Southern regions.', 11, false, [60, 60, 60]);
-        yPos += 5;
-        addText('Key Statistics:', 12, true);
-        addText('• Founded: 1985', 10, false, [60, 60, 60]);
-        addText('• Regional Branches: 5', 10, false, [60, 60, 60]);
-        addText('• Tank Capacity: 100,000+ Liters', 10, false, [60, 60, 60]);
-        addText('• Market Position: #1 in Saudi Arabia', 10, false, [60, 60, 60]);
+            if (!isFirstPage) {
+                pdf.addPage();
+            }
+            isFirstPage = false;
 
-        yPos += 10;
-        addText('2. FAMILY BUSINESS CONTEXT', 18, true);
-        yPos += 5;
-        addText('Family businesses constitute approximately 90% of Saudi corporations and contribute nearly 60% of the private sector GDP. Al Zamil operates within this ecosystem with 40+ years of industry experience.', 11, false, [60, 60, 60]);
+            // If image fits on one page
+            if (imgHeight <= pageHeight - 20) {
+                pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight);
+            } else {
+                // Multi-page handling
+                let currentY = 0;
+                while (heightLeft > 0) {
+                    if (currentY > 0) {
+                        pdf.addPage();
+                    }
 
-        yPos += 10;
-        addText('3. MARKET LANDSCAPE', 18, true);
-        yPos += 5;
-        addText('• Construction Market 2024: $70.4B → 2030: $97.4B (5.6% CAGR)', 10, false, [60, 60, 60]);
-        addText('• Projects Pipeline: $2.1 Trillion', 10, false, [60, 60, 60]);
-        addText('• Water Investment: $80 Billion', 10, false, [60, 60, 60]);
-        addText('• Urbanization Rate: 83%', 10, false, [60, 60, 60]);
+                    const pageImgHeight = Math.min(pageHeight - 20, heightLeft);
 
-        pdf.addPage();
-        yPos = margin;
+                    // Create a cropped canvas for this page portion
+                    const croppedCanvas = document.createElement('canvas');
+                    const ctx = croppedCanvas.getContext('2d');
+                    const sourceY = (currentY / imgHeight) * canvas.height;
+                    const sourceHeight = (pageImgHeight / imgHeight) * canvas.height;
 
-        addText('4. SWOT ANALYSIS', 18, true);
-        yPos += 5;
-        addText('STRENGTHS:', 12, true, [39, 174, 96]);
-        addText('• Market leadership in polyethylene tanks', 10, false, [60, 60, 60]);
-        addText('• Advanced blow-molding technology (since 2017)', 10, false, [60, 60, 60]);
-        addText('• Nationwide distribution (5 regional branches)', 10, false, [60, 60, 60]);
-        addText('• Vertical integration (manufacturing + trading)', 10, false, [60, 60, 60]);
+                    croppedCanvas.width = canvas.width;
+                    croppedCanvas.height = sourceHeight;
+                    ctx.drawImage(canvas, 0, sourceY, canvas.width, sourceHeight, 0, 0, canvas.width, sourceHeight);
 
-        yPos += 5;
-        addText('WEAKNESSES:', 12, true, [231, 76, 60]);
-        addText('• Limited digital presence vs. potential', 10, false, [60, 60, 60]);
-        addText('• Dependency on petrochemical raw material pricing', 10, false, [60, 60, 60]);
-        addText('• Family business governance maturity', 10, false, [60, 60, 60]);
+                    const croppedData = croppedCanvas.toDataURL('image/jpeg', 0.95);
+                    pdf.addImage(croppedData, 'JPEG', 10, 10, imgWidth, pageImgHeight);
 
-        yPos += 5;
-        addText('OPPORTUNITIES:', 12, true, [44, 73, 153]);
-        addText('• Vision 2030 infrastructure boom', 10, false, [60, 60, 60]);
-        addText('• $80B water security investments', 10, false, [60, 60, 60]);
-        addText('• Digital transformation potential', 10, false, [60, 60, 60]);
-        addText('• Export to GCC markets', 10, false, [60, 60, 60]);
+                    heightLeft -= pageImgHeight;
+                    currentY += pageImgHeight;
+                }
+            }
+        }
 
-        yPos += 5;
-        addText('THREATS:', 12, true, [243, 156, 18]);
-        addText('• Increased competition from imports', 10, false, [60, 60, 60]);
-        addText('• Raw material price volatility', 10, false, [60, 60, 60]);
-        addText('• Succession and governance risks', 10, false, [60, 60, 60]);
-
-        yPos += 10;
-        addText('5. COMPETITORS', 18, true);
-        yPos += 5;
-        addText('• SAWACO Water Company', 10, false, [60, 60, 60]);
-        addText('• National Polyethylene Co.', 10, false, [60, 60, 60]);
-        addText('• Marjan Factory (25+ years, ISO 9001:2015)', 10, false, [60, 60, 60]);
-        addText('• Saudi Polycon (Since 1998)', 10, false, [60, 60, 60]);
-        addText('• Al Muhaideb National', 10, false, [60, 60, 60]);
-
-        pdf.addPage();
-        yPos = margin;
-
-        addText('6. STRATEGIC RECOMMENDATIONS', 18, true);
-        yPos += 5;
-        addText('SHORT-TERM:', 12, true, [243, 156, 18]);
-        addText('• Strengthen digital marketing', 10, false, [60, 60, 60]);
-        addText('• Enhance e-commerce platform', 10, false, [60, 60, 60]);
-        addText('• Implement CRM systems', 10, false, [60, 60, 60]);
-
-        yPos += 5;
-        addText('MEDIUM-TERM:', 12, true, [39, 174, 96]);
-        addText('• Develop AI-powered operational improvements', 10, false, [60, 60, 60]);
-        addText('• Expand product portfolio', 10, false, [60, 60, 60]);
-        addText('• Establish export channels', 10, false, [60, 60, 60]);
-
-        yPos += 5;
-        addText('LONG-TERM:', 12, true, [44, 73, 153]);
-        addText('• Formalize family governance', 10, false, [60, 60, 60]);
-        addText('• Develop next-generation leadership', 10, false, [60, 60, 60]);
-        addText('• Pursue sustainability certifications', 10, false, [60, 60, 60]);
-
-        yPos += 15;
-        addText('7. CONCLUSION', 18, true);
-        yPos += 5;
-        addText('Al Zamil is well-positioned to capitalize on Saudi Arabia\'s unprecedented infrastructure investment cycle. Success will depend on balancing family business values with professional governance, embracing digital transformation, and maintaining technological leadership in manufacturing excellence.', 11, false, [60, 60, 60]);
-
-        // Footer on last page
+        // Add footer to last page
         pdf.setFontSize(8);
         pdf.setTextColor(150, 150, 150);
-        pdf.text('Al Zamil Market Analysis Report | Team 14 | MBSC', pageWidth/2, pageHeight - 10, {align: 'center'});
+        pdf.text('Al Zamil Market Analysis Report v1.2 | Team 14 | MBSC | IMC/IFC Challenge 2025-2026', pageWidth/2, pageHeight - 5, {align: 'center'});
 
-        // Save
-        pdf.save('Al_Zamil_Market_Analysis_Report.pdf');
+        // Restore UI elements
+        document.querySelector('.sidebar').style.display = '';
+        document.querySelector('.topbar').style.display = '';
+        document.querySelector('.chat-widget').style.display = '';
+        document.querySelector('.progress-bar').style.display = '';
+        document.querySelector('.scroll-indicator').style.display = '';
+
+        // Save PDF
+        pdf.save('Al_Zamil_Market_Analysis_Report_v1.2.pdf');
 
     } catch (error) {
         console.error('PDF generation error:', error);
-        alert('Error generating PDF. Please try printing instead.');
+
+        // Restore UI on error
+        document.querySelector('.sidebar').style.display = '';
+        document.querySelector('.topbar').style.display = '';
+        document.querySelector('.chat-widget').style.display = '';
+        document.querySelector('.progress-bar').style.display = '';
+        document.querySelector('.scroll-indicator').style.display = '';
+
+        alert('Error generating PDF. Please try using Print (Ctrl+P) and select "Save as PDF" instead.');
     }
 
     loading.classList.remove('active');
