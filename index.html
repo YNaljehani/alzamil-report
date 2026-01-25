@@ -922,9 +922,40 @@ tr:hover { background: #e8eef7; }
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
+    text-decoration: none;
+    background: rgba(44, 73, 153, 0.1);
+    padding: 1px 4px;
+    border-radius: 3px;
 }
 
-.citation:hover { color: var(--accent-teal); }
+.citation:hover {
+    color: white;
+    background: var(--zamil-blue);
+}
+
+.ref-row {
+    scroll-margin-top: 80px;
+}
+
+.ref-row:target {
+    background: rgba(44, 73, 153, 0.2) !important;
+    animation: highlightRef 2s ease;
+}
+
+@keyframes highlightRef {
+    0% { background: rgba(212, 175, 55, 0.5); }
+    100% { background: rgba(44, 73, 153, 0.2); }
+}
+
+.ref-link {
+    color: var(--zamil-blue);
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.ref-link:hover {
+    text-decoration: underline;
+}
 
 /* ========================================
    PROGRESS INDICATOR
@@ -1311,7 +1342,7 @@ tr:hover { background: #e8eef7; }
         <p>A comprehensive overview of Al Zamil's market position and strategic outlook</p>
     </div>
 
-    <p>Al Zamil for Industry, Trading and Transport is a Saudi family business established in 1985, which has grown to become <strong>the largest and leading polyethylene water tank manufacturer</strong> in the Kingdom of Saudi Arabia.<sup class="citation">[1]</sup> Operating across five regional branches covering the Northern, Central, Eastern, Western, and Southern regions, Al Zamil has strategically positioned itself at the intersection of critical market needs: water storage solutions in one of the world's most water-stressed nations.</p>
+    <p>Al Zamil for Industry, Trading and Transport is a Saudi family business established in 1985, which has grown to become <strong>the largest and leading polyethylene water tank manufacturer</strong> in the Kingdom of Saudi Arabia.<a href="#ref-1" class="citation">[1]</a> Operating across five regional branches covering the Northern, Central, Eastern, Western, and Southern regions, Al Zamil has strategically positioned itself at the intersection of critical market needs: water storage solutions in one of the world's most water-stressed nations.</p>
 
     <div class="stats-row">
         <div class="stat-card">
@@ -1335,11 +1366,11 @@ tr:hover { background: #e8eef7; }
     <div class="highlight-box">
         <h4>Key Findings</h4>
         <ul>
-            <li>The Saudi water tank market is experiencing steady growth with increasing demand for polyethylene solutions<sup class="citation">[5]</sup></li>
-            <li>Vision 2030 mega-projects are creating unprecedented demand for building materials and water infrastructure<sup class="citation">[4]</sup></li>
+            <li>The Saudi water tank market is experiencing steady growth with increasing demand for polyethylene solutions<a href="#ref-5" class="citation">[5]</a></li>
+            <li>Vision 2030 mega-projects are creating unprecedented demand for building materials and water infrastructure<a href="#ref-4" class="citation">[4]</a></li>
             <li>Al Zamil's vertical integration (manufacturing + trading) provides competitive advantages</li>
             <li>Digital transformation and AI present significant opportunities for operational enhancement</li>
-            <li>Succession planning and governance modernization represent critical strategic priorities<sup class="citation">[2]</sup></li>
+            <li>Succession planning and governance modernization represent critical strategic priorities<a href="#ref-2" class="citation">[2]</a></li>
         </ul>
     </div>
 </section>
@@ -1352,7 +1383,7 @@ tr:hover { background: #e8eef7; }
     </div>
 
     <h3>2.1 The Family Business Ecosystem in Saudi Arabia</h3>
-    <p>Family businesses constitute the backbone of Saudi Arabia's private sector, representing approximately <strong>90% of Saudi corporations</strong> and contributing nearly 60% of the private sector's GDP.<sup class="citation">[2]</sup></p>
+    <p>Family businesses constitute the backbone of Saudi Arabia's private sector, representing approximately <strong>90% of Saudi corporations</strong> and contributing nearly 60% of the private sector's GDP.<a href="#ref-2" class="citation">[2]</a></p>
 
     <div class="stats-row">
         <div class="stat-card">
@@ -1385,7 +1416,7 @@ tr:hover { background: #e8eef7; }
     <table>
         <tr><th>Attribute</th><th>Details</th></tr>
         <tr><td><strong>Company Name</strong></td><td>Al Zamil for Industry, Trading and Transport</td></tr>
-        <tr><td><strong>Founded</strong></td><td>1985<sup class="citation">[1]</sup></td></tr>
+        <tr><td><strong>Founded</strong></td><td>1985<a href="#ref-1" class="citation">[1]</a></td></tr>
         <tr><td><strong>Headquarters</strong></td><td>Saudi Arabia</td></tr>
         <tr><td><strong>Website</strong></td><td>https://zamilco.com/en</td></tr>
         <tr><td><strong>Core Business</strong></td><td>Water tank manufacturing, building materials trading, water/heat insulation</td></tr>
@@ -1395,15 +1426,15 @@ tr:hover { background: #e8eef7; }
     <div class="timeline">
         <div class="timeline-item">
             <div class="timeline-year">1985 - Founding</div>
-            <div class="timeline-content">Established as a building materials trading company specializing in steel, cement, water tanks, and water & heat insulation.<sup class="citation">[1]</sup></div>
+            <div class="timeline-content">Established as a building materials trading company specializing in steel, cement, water tanks, and water & heat insulation.<a href="#ref-1" class="citation">[1]</a></div>
         </div>
         <div class="timeline-item">
             <div class="timeline-year">1997 - Manufacturing Integration</div>
-            <div class="timeline-content">Al Zamil established its own manufacturing facility, marking a strategic shift from pure trading to vertical integration.<sup class="citation">[1]</sup></div>
+            <div class="timeline-content">Al Zamil established its own manufacturing facility, marking a strategic shift from pure trading to vertical integration.<a href="#ref-1" class="citation">[1]</a></div>
         </div>
         <div class="timeline-item">
             <div class="timeline-year">2017 - Technology Advancement</div>
-            <div class="timeline-content">Introduction of revolutionary blow-molding technology, considered the most efficient and productive method for manufacturing tanks.<sup class="citation">[1]</sup></div>
+            <div class="timeline-content">Introduction of revolutionary blow-molding technology, considered the most efficient and productive method for manufacturing tanks.<a href="#ref-1" class="citation">[1]</a></div>
         </div>
         <div class="timeline-item">
             <div class="timeline-year">Present - Market Leader</div>
@@ -1464,7 +1495,7 @@ tr:hover { background: #e8eef7; }
 
     <div class="highlight-box">
         <h4>Vision 2030 Mega-Projects</h4>
-        <p>NEOM ($500B+), Red Sea Project, Qiddiya Entertainment City, and massive urban expansions in Riyadh and Jeddah are driving unprecedented construction demand.<sup class="citation">[4][21]</sup></p>
+        <p>NEOM ($500B+), Red Sea Project, Qiddiya Entertainment City, and massive urban expansions in Riyadh and Jeddah are driving unprecedented construction demand.<a href="#ref-4" class="citation">[4]</a><a href="#ref-21" class="citation">[21]</a></p>
     </div>
 </section>
 
@@ -1528,27 +1559,27 @@ tr:hover { background: #e8eef7; }
     <div class="competitor-grid">
         <div class="competitor-card highlight">
             <h5>Al Zamil (Subject Company)</h5>
-            <p>Largest polyethylene factory, 100K+ liter capacity, 10-year warranty, nationwide presence<sup class="citation">[1]</sup></p>
+            <p>Largest polyethylene factory, 100K+ liter capacity, 10-year warranty, nationwide presence<a href="#ref-1" class="citation">[1]</a></p>
         </div>
         <div class="competitor-card">
             <h5>SAWACO Water Company</h5>
-            <p>Established brand, diversified product portfolio<sup class="citation">[6]</sup></p>
+            <p>Established brand, diversified product portfolio<a href="#ref-6" class="citation">[6]</a></p>
         </div>
         <div class="competitor-card">
             <h5>National Polyethylene Co.</h5>
-            <p>Strong manufacturing capabilities, market presence<sup class="citation">[6]</sup></p>
+            <p>Strong manufacturing capabilities, market presence<a href="#ref-6" class="citation">[6]</a></p>
         </div>
         <div class="competitor-card">
             <h5>Marjan Factory</h5>
-            <p>25+ years experience, ISO 9001:2015 certified<sup class="citation">[6]</sup></p>
+            <p>25+ years experience, ISO 9001:2015 certified<a href="#ref-6" class="citation">[6]</a></p>
         </div>
         <div class="competitor-card">
             <h5>Saudi Polycon</h5>
-            <p>Operating since 1998, established distribution<sup class="citation">[6]</sup></p>
+            <p>Operating since 1998, established distribution<a href="#ref-6" class="citation">[6]</a></p>
         </div>
         <div class="competitor-card">
             <h5>Al Muhaideb National</h5>
-            <p>SABIC-sourced materials, SASO compliance<sup class="citation">[6]</sup></p>
+            <p>SABIC-sourced materials, SASO compliance<a href="#ref-6" class="citation">[6]</a></p>
         </div>
     </div>
 
@@ -1573,7 +1604,7 @@ tr:hover { background: #e8eef7; }
         <div class="swot-item swot-strengths">
             <h4><span class="icon">S</span> Strengths</h4>
             <ul>
-                <li>Market leadership in polyethylene tanks<sup class="citation">[1]</sup></li>
+                <li>Market leadership in polyethylene tanks<a href="#ref-1" class="citation">[1]</a></li>
                 <li>Advanced blow-molding technology (since 2017)</li>
                 <li>Nationwide distribution (5 regional branches)</li>
                 <li>Vertical integration (manufacturing + trading)</li>
@@ -1587,14 +1618,14 @@ tr:hover { background: #e8eef7; }
                 <li>Limited digital presence vs. potential</li>
                 <li>Dependency on petrochemical raw material pricing</li>
                 <li>Brand recognition outside core markets</li>
-                <li>Family business governance maturity<sup class="citation">[2]</sup></li>
+                <li>Family business governance maturity<a href="#ref-2" class="citation">[2]</a></li>
             </ul>
         </div>
         <div class="swot-item swot-opportunities">
             <h4><span class="icon">O</span> Opportunities</h4>
             <ul>
-                <li>Vision 2030 infrastructure boom<sup class="citation">[4]</sup></li>
-                <li>$80B water security investments<sup class="citation">[9]</sup></li>
+                <li>Vision 2030 infrastructure boom<a href="#ref-4" class="citation">[4]</a></li>
+                <li>$80B water security investments<a href="#ref-9" class="citation">[9]</a></li>
                 <li>Digital transformation potential</li>
                 <li>Export to GCC markets</li>
                 <li>Sustainable/smart product development</li>
@@ -1608,7 +1639,7 @@ tr:hover { background: #e8eef7; }
                 <li>Raw material price volatility</li>
                 <li>Economic fluctuations affecting construction</li>
                 <li>New entrants with advanced technology</li>
-                <li>Succession and governance risks<sup class="citation">[3]</sup></li>
+                <li>Succession and governance risks<a href="#ref-3" class="citation">[3]</a></li>
             </ul>
         </div>
     </div>
@@ -1625,7 +1656,7 @@ tr:hover { background: #e8eef7; }
                     <li><strong>Human Capital:</strong> Technical expertise in water storage solutions</li>
                     <li><strong>Distribution:</strong> Five regional branches with nationwide logistics</li>
                     <li><strong>Technology:</strong> Modular tank designs, various capacity options</li>
-                    <li><strong>Relationships:</strong> Established supplier networks (SABIC for raw materials)<sup class="citation">[1]</sup></li>
+                    <li><strong>Relationships:</strong> Established supplier networks (SABIC for raw materials)<a href="#ref-1" class="citation">[1]</a></li>
                 </ul>
             </div>
         </div>
@@ -1646,7 +1677,7 @@ tr:hover { background: #e8eef7; }
                 <h5>Political</h5>
             </div>
             <div class="pestel-content">
-                Stable government with strong Vision 2030 commitment. Supportive industrial policies and regulatory framework favoring local manufacturing.<sup class="citation">[4]</sup>
+                Stable government with strong Vision 2030 commitment. Supportive industrial policies and regulatory framework favoring local manufacturing.<a href="#ref-4" class="citation">[4]</a>
             </div>
         </div>
         <div class="pestel-card pestel-economic">
@@ -1655,7 +1686,7 @@ tr:hover { background: #e8eef7; }
                 <h5>Economic</h5>
             </div>
             <div class="pestel-content">
-                Diversification from oil dependency. Infrastructure investment boom with $2.1T in projects pipeline. GDP growth and construction sector expansion.<sup class="citation">[4][21]</sup>
+                Diversification from oil dependency. Infrastructure investment boom with $2.1T in projects pipeline. GDP growth and construction sector expansion.<a href="#ref-4" class="citation">[4]</a><a href="#ref-21" class="citation">[21]</a>
             </div>
         </div>
         <div class="pestel-card pestel-social">
@@ -1664,7 +1695,7 @@ tr:hover { background: #e8eef7; }
                 <h5>Social</h5>
             </div>
             <div class="pestel-content">
-                Population growth (36M), 83% urbanization rate. Increasing water consumption awareness and demand for 2.6M new housing units by 2030.<sup class="citation">[4]</sup>
+                Population growth (36M), 83% urbanization rate. Increasing water consumption awareness and demand for 2.6M new housing units by 2030.<a href="#ref-4" class="citation">[4]</a>
             </div>
         </div>
         <div class="pestel-card pestel-technological">
@@ -1673,7 +1704,7 @@ tr:hover { background: #e8eef7; }
                 <h5>Technological</h5>
             </div>
             <div class="pestel-content">
-                Digital transformation push with smart city initiatives. Industry 4.0 adoption, IoT integration, and AI-powered operations becoming standard.<sup class="citation">[4]</sup>
+                Digital transformation push with smart city initiatives. Industry 4.0 adoption, IoT integration, and AI-powered operations becoming standard.<a href="#ref-4" class="citation">[4]</a>
             </div>
         </div>
         <div class="pestel-card pestel-environmental">
@@ -1682,7 +1713,7 @@ tr:hover { background: #e8eef7; }
                 <h5>Environmental</h5>
             </div>
             <div class="pestel-content">
-                Critical water scarcity (500 m&sup3;/capita threshold). Heavy focus on desalination with 90% target by 2030. Sustainability mandates increasing.<sup class="citation">[9][25]</sup>
+                Critical water scarcity (500 m&sup3;/capita threshold). Heavy focus on desalination with 90% target by 2030. Sustainability mandates increasing.<a href="#ref-9" class="citation">[9]</a><a href="#ref-25" class="citation">[25]</a>
             </div>
         </div>
         <div class="pestel-card pestel-legal">
@@ -1691,7 +1722,7 @@ tr:hover { background: #e8eef7; }
                 <h5>Legal</h5>
             </div>
             <div class="pestel-content">
-                Evolving business regulations and family business governance frameworks. Labor nationalization (Nitaqat) and quality standard compliance requirements.<sup class="citation">[12][17]</sup>
+                Evolving business regulations and family business governance frameworks. Labor nationalization (Nitaqat) and quality standard compliance requirements.<a href="#ref-12" class="citation">[12]</a><a href="#ref-17" class="citation">[17]</a>
             </div>
         </div>
     </div>
@@ -1705,7 +1736,7 @@ tr:hover { background: #e8eef7; }
     </div>
 
     <h3>8.1 Digital Infrastructure</h3>
-    <p>Al Zamil operates an e-commerce platform (store.zamilco.com), demonstrating early digital adoption.<sup class="citation">[1]</sup> Opportunities exist for enhanced functionality, mobile app development, and integrated CRM systems.</p>
+    <p>Al Zamil operates an e-commerce platform (store.zamilco.com), demonstrating early digital adoption.<a href="#ref-1" class="citation">[1]</a> Opportunities exist for enhanced functionality, mobile app development, and integrated CRM systems.</p>
 
     <h3>8.2 AI Maturity & Use Cases</h3>
     <div class="chart-container">
@@ -1785,15 +1816,15 @@ tr:hover { background: #e8eef7; }
     </div>
 
     <h3>Key Findings</h3>
-    <p>Al Zamil for Industry, Trading and Transport occupies a <strong>strong market position</strong> as Saudi Arabia's leading polyethylene water tank manufacturer. The company's 40-year history, technological investments, and nationwide presence provide solid foundations for continued growth.<sup class="citation">[1]</sup></p>
+    <p>Al Zamil for Industry, Trading and Transport occupies a <strong>strong market position</strong> as Saudi Arabia's leading polyethylene water tank manufacturer. The company's 40-year history, technological investments, and nationwide presence provide solid foundations for continued growth.<a href="#ref-1" class="citation">[1]</a></p>
 
     <h3>Strategic Opportunities</h3>
     <ol>
-        <li><strong>Vision 2030 Alignment:</strong> Position as preferred supplier for mega-projects requiring water storage solutions<sup class="citation">[4]</sup></li>
+        <li><strong>Vision 2030 Alignment:</strong> Position as preferred supplier for mega-projects requiring water storage solutions<a href="#ref-4" class="citation">[4]</a></li>
         <li><strong>Digital Transformation:</strong> Enhance e-commerce, implement IoT-enabled smart tanks</li>
         <li><strong>Product Innovation:</strong> Develop sustainable/recyclable tank solutions</li>
         <li><strong>Geographic Expansion:</strong> Explore GCC export markets</li>
-        <li><strong>Governance Modernization:</strong> Implement family charter, succession planning<sup class="citation">[2][3]</sup></li>
+        <li><strong>Governance Modernization:</strong> Implement family charter, succession planning<a href="#ref-2" class="citation">[2]</a><a href="#ref-3" class="citation">[3]</a></li>
     </ol>
 
     <h3>Strategic Recommendations by Timeframe</h3>
@@ -1825,18 +1856,18 @@ tr:hover { background: #e8eef7; }
 
     <table>
         <tr><th>#</th><th>Source</th><th>URL</th></tr>
-        <tr><td>[1]</td><td>Al Zamil Company Official Website</td><td>zamilco.com/en</td></tr>
-        <tr><td>[2]</td><td>PwC ME Family Business Survey 2023</td><td>pwc.com/m1/en/publications</td></tr>
-        <tr><td>[3]</td><td>INSEAD - Succession Decades</td><td>knowledge.insead.edu</td></tr>
-        <tr><td>[4]</td><td>Mordor Intelligence - Construction</td><td>mordorintelligence.com</td></tr>
-        <tr><td>[5]</td><td>6W Research - Water Tanks Market</td><td>6wresearch.com</td></tr>
-        <tr><td>[6]</td><td>Research & Markets - Water Tanks</td><td>researchandmarkets.com</td></tr>
-        <tr><td>[9]</td><td>Trade.gov - Saudi Water Sector</td><td>trade.gov</td></tr>
-        <tr><td>[10]</td><td>NCFB Statistics (Argaam)</td><td>argaam.com</td></tr>
-        <tr><td>[12]</td><td>KPMG - Succession Planning</td><td>kpmg.com/sa</td></tr>
-        <tr><td>[17]</td><td>Grant Thornton - Family Business</td><td>grantthornton.sa</td></tr>
-        <tr><td>[21]</td><td>Ken Research - Construction</td><td>kenresearch.com</td></tr>
-        <tr><td>[25]</td><td>ScienceDirect - Water Resources</td><td>sciencedirect.com</td></tr>
+        <tr id="ref-1" class="ref-row"><td>[1]</td><td>Al Zamil Company Official Website</td><td><a href="https://zamilco.com/en" target="_blank" class="ref-link">zamilco.com/en</a></td></tr>
+        <tr id="ref-2" class="ref-row"><td>[2]</td><td>PwC ME Family Business Survey 2023</td><td><a href="https://www.pwc.com/m1/en/publications/family-business-survey.html" target="_blank" class="ref-link">pwc.com/m1/en/publications</a></td></tr>
+        <tr id="ref-3" class="ref-row"><td>[3]</td><td>INSEAD - Succession Decades</td><td><a href="https://knowledge.insead.edu/family-business" target="_blank" class="ref-link">knowledge.insead.edu</a></td></tr>
+        <tr id="ref-4" class="ref-row"><td>[4]</td><td>Mordor Intelligence - Construction</td><td><a href="https://www.mordorintelligence.com/industry-reports/construction-sector-in-the-kingdom-of-saudi-arabia-industry" target="_blank" class="ref-link">mordorintelligence.com</a></td></tr>
+        <tr id="ref-5" class="ref-row"><td>[5]</td><td>6W Research - Water Tanks Market</td><td><a href="https://www.6wresearch.com/industry-report/saudi-arabia-water-tanks-market-outlook" target="_blank" class="ref-link">6wresearch.com</a></td></tr>
+        <tr id="ref-6" class="ref-row"><td>[6]</td><td>Research & Markets - Water Tanks</td><td><a href="https://www.researchandmarkets.com/reports/5880601/saudi-arabia-water-tanks-market-competition" target="_blank" class="ref-link">researchandmarkets.com</a></td></tr>
+        <tr id="ref-9" class="ref-row"><td>[9]</td><td>Trade.gov - Saudi Water Sector</td><td><a href="https://www.trade.gov/country-commercial-guides/saudi-arabia-water" target="_blank" class="ref-link">trade.gov</a></td></tr>
+        <tr id="ref-10" class="ref-row"><td>[10]</td><td>NCFB Statistics (Argaam)</td><td><a href="https://www.argaam.com/en/article/articledetail/id/1750202" target="_blank" class="ref-link">argaam.com</a></td></tr>
+        <tr id="ref-12" class="ref-row"><td>[12]</td><td>KPMG - Succession Planning</td><td><a href="https://kpmg.com/sa/en/home/insights/2023/succession-planning.html" target="_blank" class="ref-link">kpmg.com/sa</a></td></tr>
+        <tr id="ref-17" class="ref-row"><td>[17]</td><td>Grant Thornton - Family Business</td><td><a href="https://www.grantthornton.sa/en/insights/articles-and-publications/" target="_blank" class="ref-link">grantthornton.sa</a></td></tr>
+        <tr id="ref-21" class="ref-row"><td>[21]</td><td>Ken Research - Construction</td><td><a href="https://www.kenresearch.com/industry-reports/ksa-construction-market" target="_blank" class="ref-link">kenresearch.com</a></td></tr>
+        <tr id="ref-25" class="ref-row"><td>[25]</td><td>ScienceDirect - Water Resources</td><td><a href="https://www.sciencedirect.com/science/article/abs/pii/S221515322300079X" target="_blank" class="ref-link">sciencedirect.com</a></td></tr>
     </table>
 
     <h3>Appendix B: Acronyms</h3>
