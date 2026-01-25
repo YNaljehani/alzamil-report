@@ -1,0 +1,348 @@
+================================================================================
+AL ZAMIL MARKET ANALYSIS REPORT - INTERACTIVE DASHBOARD
+Development Log
+================================================================================
+Project: IMC/IFC Challenge 2025-2026
+Team: Team 14
+Date: January 2026
+================================================================================
+
+TABLE OF CONTENTS
+-----------------
+1. Project Overview
+2. Interactive HTML Dashboard Creation
+3. Online Hosting Setup
+4. Logo Integration
+5. Team Members Addition
+6. PDF Download Feature
+7. AI Chat Assistant
+8. Clickable Citations
+9. Files Created/Modified
+10. Live URLs
+
+================================================================================
+1. PROJECT OVERVIEW
+================================================================================
+
+Converted the Al Zamil Market Analysis Report v1.2 (Word document) into a fully
+interactive HTML dashboard with modern features including:
+
+- Responsive design with mobile support
+- Interactive charts using Chart.js
+- Dark mode toggle
+- Sidebar navigation
+- Animated statistics counters
+- PDF report generation
+- AI-powered chat assistant
+- Clickable citations
+
+================================================================================
+2. INTERACTIVE HTML DASHBOARD CREATION
+================================================================================
+
+Created: Al_Zamil_Interactive_Report.html
+
+FEATURES IMPLEMENTED:
+
+A. Visual Design
+   - Al Zamil brand colors (Primary Blue: #2c4999)
+   - Modern gradient backgrounds
+   - Card-based layout with shadows
+   - Smooth animations and transitions
+
+B. Navigation
+   - Fixed top bar with menu toggle
+   - Collapsible sidebar navigation
+   - Smooth scroll to sections
+   - Progress bar showing reading position
+   - Active section highlighting in nav
+
+C. Interactive Charts (Chart.js)
+   - Governance Challenges (Horizontal Bar)
+   - Market Size Projections (Bar Chart)
+   - Growth Drivers (Doughnut Chart)
+   - Customer Segments (Pie Chart)
+   - Revenue by Segment (Bar Chart)
+   - Competitive Position (Radar Chart)
+   - AI Applications Impact (Horizontal Bar)
+   - Financial Projections (Line Chart)
+   - Strategy Priority Matrix (Bar Chart)
+
+D. Visual Components
+   - SWOT Analysis grid (color-coded quadrants)
+   - PESTEL cards with hover effects
+   - Company timeline with scroll animations
+   - Competitor comparison cards
+   - Statistics cards with gradient backgrounds
+   - Collapsible content sections
+   - Styled data tables
+
+E. Sections Included
+   1. Cover Page / Hero Section
+   2. Executive Summary
+   3. Family Business Context & Company Overview
+   4. Industry & Market Landscape
+   5. Customer Analysis
+   6. Competitor Analysis
+   7. Internal Analysis (SWOT)
+   8. PESTEL Analysis
+   9. Technology, Digital Transformation & AI
+   10. Financial Analysis
+   11. Conclusion & Strategic Recommendations
+   12. Appendices (References & Acronyms)
+
+================================================================================
+3. ONLINE HOSTING SETUP
+================================================================================
+
+A. Temporary Hosting (Litterbox/Catbox)
+   - Uploaded via curl command
+   - URL: https://litter.catbox.moe/vtmhzg.html (72-hour link)
+
+B. GitHub Pages (Permanent)
+   - Created GitHub repository: alzamil-report
+   - Repository URL: https://github.com/YNaljehani/alzamil-report
+   - Live URL: https://ynaljehani.github.io/alzamil-report/
+
+   Git Commands Used:
+   - git init
+   - git add -A
+   - git commit -m "message"
+   - git remote add origin https://github.com/YNaljehani/alzamil-report.git
+   - git branch -M main
+   - git push -u origin main
+
+   GitHub Pages Setup:
+   - Settings > Pages > Source: Deploy from branch
+   - Branch: main / root
+
+C. Vercel (Optional)
+   - User attempted Vercel deployment
+   - Import from GitHub repo available
+
+================================================================================
+4. LOGO INTEGRATION
+================================================================================
+
+Added company logos to the dashboard:
+
+Files Added:
+- mbsc-logo.png (MBSC College logo)
+- alzamil-logo.png (Al Zamil Company logo)
+
+Location: Hero/Cover section in logo boxes
+
+CSS Styling:
+.logo-box {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 12px;
+    min-width: 160px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.logo-box img {
+    max-width: 140px;
+    max-height: 80px;
+    object-fit: contain;
+}
+
+================================================================================
+5. TEAM MEMBERS ADDITION
+================================================================================
+
+Added Team 14 members to the cover page:
+
+Team Name: Team 14
+
+Members:
+1. Ghadah Ahmed Alamri
+2. Hashan Hamad Almehethel
+3. Mohammed Alhammad
+4. Yousef Aljehani
+5. Abdulaziz Alayaf
+6. Omar Alabdulwahab
+7. Fahad Binsareean
+8. Reem Albdulmunim
+
+Display: Flexbox layout with wrap, centered, in a semi-transparent container
+
+================================================================================
+6. PDF DOWNLOAD FEATURE
+================================================================================
+
+Added "Download PDF" button (green) in the top navigation bar.
+
+Technology Used:
+- jsPDF library (v2.5.1)
+- html2canvas library (v1.4.1)
+
+Functionality:
+- Captures each section of the report as images
+- Preserves all charts, tables, and visual elements
+- Handles multi-page sections automatically
+- Hides UI elements (sidebar, topbar, chat widget) during capture
+- Saves as "Al_Zamil_Market_Analysis_Report_v1.2.pdf"
+
+Loading Indicator:
+- Full-screen overlay with spinner
+- "Generating PDF Report..." message
+
+================================================================================
+7. AI CHAT ASSISTANT
+================================================================================
+
+Added floating chat widget (bottom-right corner).
+
+Features:
+- Toggle button with chat icon
+- Expandable chat window (400x550px)
+- Typing indicator animation
+- Suggested questions
+- Comprehensive knowledge base
+
+Knowledge Base Topics:
+- Company overview (keywords: zamil, company, about, what is)
+- History & timeline (keywords: history, founded, when, 1985)
+- Products (keywords: product, tank, manufacture)
+- Market data (keywords: market, size, growth, industry)
+- Strengths (keywords: strength, advantage, strong)
+- Weaknesses (keywords: weakness, challenge, problem)
+- Opportunities (keywords: opportunity, growth, potential)
+- Threats (keywords: threat, risk, competition)
+- SWOT Analysis (keywords: swot, analysis)
+- Competitors (keywords: competitor, rival, versus)
+- Recommendations (keywords: recommend, strategy, advice)
+- Vision 2030 (keywords: vision, 2030, neom, mega)
+- Family Business (keywords: family, succession, governance)
+- PESTEL (keywords: pestel, political, economic)
+- Technology (keywords: technology, digital, ai, iot)
+- Financial (keywords: financial, revenue, profit)
+- Team Members (keywords: team, member, who made)
+
+UI Styling:
+- Chat header with avatar and title
+- Message bubbles (bot: gray, user: blue)
+- Input field with send button
+- Suggestion chips for quick questions
+
+================================================================================
+8. CLICKABLE CITATIONS
+================================================================================
+
+Made all citation numbers clickable to navigate to references.
+
+Implementation:
+- Changed <sup class="citation">[X]</sup> to <a href="#ref-X" class="citation">[X]</a>
+- Added IDs to reference table rows (id="ref-1", id="ref-2", etc.)
+- Made URLs in references table clickable (target="_blank")
+
+CSS Enhancements:
+.citation {
+    color: var(--zamil-blue);
+    font-size: 8pt;
+    vertical-align: super;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    background: rgba(44, 73, 153, 0.1);
+    padding: 1px 4px;
+    border-radius: 3px;
+}
+
+.citation:hover {
+    color: white;
+    background: var(--zamil-blue);
+}
+
+.ref-row:target {
+    background: rgba(44, 73, 153, 0.2) !important;
+    animation: highlightRef 2s ease;
+}
+
+Citations Updated:
+[1], [2], [3], [4], [5], [6], [9], [10], [12], [17], [21], [25]
+Combined: [4][21], [9][25], [12][17], [2][3]
+
+================================================================================
+9. FILES CREATED/MODIFIED
+================================================================================
+
+Created Files:
+1. Al_Zamil_Interactive_Report.html (local copy)
+2. alzamil-report/index.html (GitHub repo)
+3. alzamil-report/mbsc-logo.png
+4. alzamil-report/alzamil-logo.png
+5. Project_Development_Log.txt (this file)
+
+GitHub Repository Structure:
+alzamil-report/
+├── index.html
+├── mbsc-logo.png
+└── alzamil-logo.png
+
+================================================================================
+10. LIVE URLs
+================================================================================
+
+GitHub Pages (Permanent):
+https://ynaljehani.github.io/alzamil-report/
+
+GitHub Repository:
+https://github.com/YNaljehani/alzamil-report
+
+Temporary Link (72 hours):
+https://litter.catbox.moe/vtmhzg.html
+
+================================================================================
+GIT COMMIT HISTORY
+================================================================================
+
+1. "Add Al Zamil Market Analysis Report" - Initial commit
+2. "Add MBSC and Al Zamil logos" - Logo integration
+3. "Add team members" - Team 14 members
+4. "Update team name to Team 14" - Team name update
+5. "Add PDF download button and AI chat assistant" - Major features
+6. "Update PDF generator to capture full report with visuals" - PDF enhancement
+7. "Make citations clickable - link to references section" - Citations update
+
+================================================================================
+TECHNICAL SPECIFICATIONS
+================================================================================
+
+Libraries Used:
+- Chart.js (v4.x) - Interactive charts
+- chartjs-plugin-datalabels (v2.0.0) - Chart labels
+- jsPDF (v2.5.1) - PDF generation
+- html2canvas (v1.4.1) - HTML to canvas conversion
+
+Browser Support:
+- Chrome (recommended)
+- Firefox
+- Safari
+- Edge
+
+Responsive Breakpoints:
+- Desktop: > 768px
+- Mobile: <= 768px
+
+Color Palette:
+- Primary Blue: #2c4999
+- Blue Light: #3d5aa8
+- Blue Dark: #1e3470
+- Accent Teal: #1abc9c
+- Accent Gold: #d4af37
+- Accent Green: #27ae60
+- Accent Orange: #f39c12
+- Accent Red: #e74c3c
+
+================================================================================
+END OF LOG
+================================================================================
+
+Prepared by: Claude AI Assistant
+For: Team 14 - MBSC IMC/IFC Challenge 2025-2026
