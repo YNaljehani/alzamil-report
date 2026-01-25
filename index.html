@@ -6,6 +6,8 @@
 <title>Al Zamil Market Analysis Report | Interactive Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 /* ========================================
    AL ZAMIL BRAND THEME - INTERACTIVE
@@ -937,6 +939,279 @@ tr:hover { background: #e8eef7; }
     z-index: 1001;
     transition: width 0.1s;
 }
+
+/* ========================================
+   AI CHAT WIDGET
+   ======================================== */
+.chat-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 10000;
+}
+
+.chat-toggle {
+    width: 65px;
+    height: 65px;
+    background: linear-gradient(135deg, var(--zamil-blue) 0%, var(--zamil-blue-dark) 100%);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 5px 25px rgba(44,73,153,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.chat-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 35px rgba(44,73,153,0.5);
+}
+
+.chat-toggle svg {
+    width: 30px;
+    height: 30px;
+    fill: white;
+}
+
+.chat-box {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 400px;
+    height: 550px;
+    background: var(--zamil-white);
+    border-radius: 20px;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-box.active { display: flex; }
+
+.chat-header {
+    background: linear-gradient(135deg, var(--zamil-blue) 0%, var(--zamil-blue-dark) 100%);
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.chat-avatar {
+    width: 45px;
+    height: 45px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20pt;
+}
+
+.chat-header-info h4 {
+    margin: 0;
+    font-size: 13pt;
+}
+
+.chat-header-info span {
+    font-size: 9pt;
+    opacity: 0.8;
+}
+
+.chat-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20pt;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: var(--transition);
+}
+
+.chat-close:hover { opacity: 1; }
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.chat-message {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 10pt;
+    line-height: 1.5;
+    animation: messageIn 0.3s ease;
+}
+
+@keyframes messageIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-message.bot {
+    background: var(--zamil-light-gray);
+    color: var(--zamil-dark);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.chat-message.user {
+    background: var(--zamil-blue);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-message.typing {
+    display: flex;
+    gap: 5px;
+    padding: 15px 20px;
+}
+
+.chat-message.typing span {
+    width: 8px;
+    height: 8px;
+    background: var(--zamil-gray);
+    border-radius: 50%;
+    animation: typing 1.4s infinite;
+}
+
+.chat-message.typing span:nth-child(2) { animation-delay: 0.2s; }
+.chat-message.typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-8px); }
+}
+
+.chat-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 20px 15px;
+}
+
+.chat-suggestion {
+    background: var(--zamil-light-gray);
+    border: 1px solid #ddd;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 9pt;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.chat-suggestion:hover {
+    background: var(--zamil-blue);
+    color: white;
+    border-color: var(--zamil-blue);
+}
+
+.chat-input-area {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 12px 18px;
+    border: 2px solid #eee;
+    border-radius: 25px;
+    font-size: 10pt;
+    outline: none;
+    transition: var(--transition);
+}
+
+.chat-input:focus { border-color: var(--zamil-blue); }
+
+.chat-send {
+    width: 45px;
+    height: 45px;
+    background: var(--zamil-blue);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.chat-send:hover { background: var(--zamil-blue-dark); }
+
+.chat-send svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+}
+
+/* ========================================
+   PDF BUTTON
+   ======================================== */
+.btn-pdf {
+    background: linear-gradient(135deg, var(--accent-green) 0%, #2ecc71 100%);
+    color: white;
+    border: none;
+}
+
+.btn-pdf:hover {
+    background: linear-gradient(135deg, #219a52 0%, #27ae60 100%);
+}
+
+.pdf-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+}
+
+.pdf-loading.active { display: flex; }
+
+.pdf-loading-content {
+    background: white;
+    padding: 40px 60px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.pdf-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #eee;
+    border-top-color: var(--zamil-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 500px) {
+    .chat-box {
+        width: calc(100vw - 20px);
+        right: -20px;
+        height: 70vh;
+    }
+}
 </style>
 </head>
 <body>
@@ -973,7 +1248,8 @@ tr:hover { background: #e8eef7; }
     </button>
     <div class="topbar-title">Al Zamil Market Analysis Report</div>
     <div class="topbar-actions">
-        <button class="btn btn-outline" onclick="window.print()">Print Report</button>
+        <button class="btn btn-pdf" onclick="generatePDF()">Download PDF</button>
+        <button class="btn btn-outline" onclick="window.print()">Print</button>
         <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">&#9788;</button>
     </div>
 </header>
@@ -1591,6 +1867,57 @@ tr:hover { background: #e8eef7; }
     </div>
 </footer>
 
+<!-- PDF Loading Overlay -->
+<div class="pdf-loading" id="pdfLoading">
+    <div class="pdf-loading-content">
+        <div class="pdf-spinner"></div>
+        <p>Generating PDF Report...</p>
+        <small>This may take a moment</small>
+    </div>
+</div>
+
+<!-- AI Chat Widget -->
+<div class="chat-widget">
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+            <div class="chat-avatar">&#129302;</div>
+            <div class="chat-header-info">
+                <h4>Al Zamil AI Assistant</h4>
+                <span>Market Analysis Expert</span>
+            </div>
+            <button class="chat-close" onclick="toggleChat()">&times;</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message bot">
+                Hello! I'm your Al Zamil Market Analysis AI Assistant. I can answer any questions about:
+                <br><br>
+                &#8226; Company overview & history<br>
+                &#8226; Market size & growth trends<br>
+                &#8226; SWOT & PESTEL analysis<br>
+                &#8226; Competitors & positioning<br>
+                &#8226; Strategic recommendations<br>
+                <br>
+                How can I help you today?
+            </div>
+        </div>
+        <div class="chat-suggestions" id="chatSuggestions">
+            <button class="chat-suggestion" onclick="askQuestion('What is Al Zamil?')">What is Al Zamil?</button>
+            <button class="chat-suggestion" onclick="askQuestion('Market size?')">Market size?</button>
+            <button class="chat-suggestion" onclick="askQuestion('Key strengths?')">Key strengths?</button>
+            <button class="chat-suggestion" onclick="askQuestion('Competitors?')">Competitors?</button>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything..." onkeypress="handleKeyPress(event)">
+            <button class="chat-send" onclick="sendMessage()">
+                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+        </div>
+    </div>
+    <button class="chat-toggle" onclick="toggleChat()">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+    </button>
+</div>
+
 <script>
 // ========================================
 // SIDEBAR TOGGLE
@@ -1894,6 +2221,434 @@ window.addEventListener('scroll', () => {
         }
     });
 });
+
+// ========================================
+// PDF GENERATION
+// ========================================
+async function generatePDF() {
+    const loading = document.getElementById('pdfLoading');
+    loading.classList.add('active');
+
+    try {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const margin = 15;
+        let yPos = margin;
+
+        // Helper function
+        const addText = (text, size, bold = false, color = [44, 73, 153]) => {
+            pdf.setFontSize(size);
+            pdf.setTextColor(...color);
+            if (bold) pdf.setFont(undefined, 'bold');
+            else pdf.setFont(undefined, 'normal');
+            const lines = pdf.splitTextToSize(text, pageWidth - 2 * margin);
+            lines.forEach(line => {
+                if (yPos > pageHeight - margin) {
+                    pdf.addPage();
+                    yPos = margin;
+                }
+                pdf.text(line, margin, yPos);
+                yPos += size * 0.5;
+            });
+            yPos += 3;
+        };
+
+        // Cover Page
+        pdf.setFillColor(44, 73, 153);
+        pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(32);
+        pdf.setFont(undefined, 'bold');
+        pdf.text('MARKET ANALYSIS REPORT', pageWidth/2, 80, {align: 'center'});
+        pdf.setFontSize(16);
+        pdf.setFont(undefined, 'normal');
+        pdf.text('IMC/IFC Challenge 2025-2026', pageWidth/2, 95, {align: 'center'});
+        pdf.setFontSize(14);
+        pdf.text('Al Zamil for Industry, Trading and Transport', pageWidth/2, 120, {align: 'center'});
+        pdf.setFontSize(11);
+        pdf.text('Prepared by: Team 14', pageWidth/2, 150, {align: 'center'});
+        pdf.text('January 2026', pageWidth/2, 160, {align: 'center'});
+        pdf.setFontSize(9);
+        pdf.text('Prince Mohammed Bin Salman College of Business & Entrepreneurship', pageWidth/2, 250, {align: 'center'});
+
+        // Content pages
+        pdf.addPage();
+        yPos = margin;
+
+        addText('1. EXECUTIVE SUMMARY', 18, true);
+        yPos += 5;
+        addText('Al Zamil for Industry, Trading and Transport is a Saudi family business established in 1985, which has grown to become the largest and leading polyethylene water tank manufacturer in the Kingdom of Saudi Arabia. Operating across five regional branches covering the Northern, Central, Eastern, Western, and Southern regions.', 11, false, [60, 60, 60]);
+        yPos += 5;
+        addText('Key Statistics:', 12, true);
+        addText('• Founded: 1985', 10, false, [60, 60, 60]);
+        addText('• Regional Branches: 5', 10, false, [60, 60, 60]);
+        addText('• Tank Capacity: 100,000+ Liters', 10, false, [60, 60, 60]);
+        addText('• Market Position: #1 in Saudi Arabia', 10, false, [60, 60, 60]);
+
+        yPos += 10;
+        addText('2. FAMILY BUSINESS CONTEXT', 18, true);
+        yPos += 5;
+        addText('Family businesses constitute approximately 90% of Saudi corporations and contribute nearly 60% of the private sector GDP. Al Zamil operates within this ecosystem with 40+ years of industry experience.', 11, false, [60, 60, 60]);
+
+        yPos += 10;
+        addText('3. MARKET LANDSCAPE', 18, true);
+        yPos += 5;
+        addText('• Construction Market 2024: $70.4B → 2030: $97.4B (5.6% CAGR)', 10, false, [60, 60, 60]);
+        addText('• Projects Pipeline: $2.1 Trillion', 10, false, [60, 60, 60]);
+        addText('• Water Investment: $80 Billion', 10, false, [60, 60, 60]);
+        addText('• Urbanization Rate: 83%', 10, false, [60, 60, 60]);
+
+        pdf.addPage();
+        yPos = margin;
+
+        addText('4. SWOT ANALYSIS', 18, true);
+        yPos += 5;
+        addText('STRENGTHS:', 12, true, [39, 174, 96]);
+        addText('• Market leadership in polyethylene tanks', 10, false, [60, 60, 60]);
+        addText('• Advanced blow-molding technology (since 2017)', 10, false, [60, 60, 60]);
+        addText('• Nationwide distribution (5 regional branches)', 10, false, [60, 60, 60]);
+        addText('• Vertical integration (manufacturing + trading)', 10, false, [60, 60, 60]);
+
+        yPos += 5;
+        addText('WEAKNESSES:', 12, true, [231, 76, 60]);
+        addText('• Limited digital presence vs. potential', 10, false, [60, 60, 60]);
+        addText('• Dependency on petrochemical raw material pricing', 10, false, [60, 60, 60]);
+        addText('• Family business governance maturity', 10, false, [60, 60, 60]);
+
+        yPos += 5;
+        addText('OPPORTUNITIES:', 12, true, [44, 73, 153]);
+        addText('• Vision 2030 infrastructure boom', 10, false, [60, 60, 60]);
+        addText('• $80B water security investments', 10, false, [60, 60, 60]);
+        addText('• Digital transformation potential', 10, false, [60, 60, 60]);
+        addText('• Export to GCC markets', 10, false, [60, 60, 60]);
+
+        yPos += 5;
+        addText('THREATS:', 12, true, [243, 156, 18]);
+        addText('• Increased competition from imports', 10, false, [60, 60, 60]);
+        addText('• Raw material price volatility', 10, false, [60, 60, 60]);
+        addText('• Succession and governance risks', 10, false, [60, 60, 60]);
+
+        yPos += 10;
+        addText('5. COMPETITORS', 18, true);
+        yPos += 5;
+        addText('• SAWACO Water Company', 10, false, [60, 60, 60]);
+        addText('• National Polyethylene Co.', 10, false, [60, 60, 60]);
+        addText('• Marjan Factory (25+ years, ISO 9001:2015)', 10, false, [60, 60, 60]);
+        addText('• Saudi Polycon (Since 1998)', 10, false, [60, 60, 60]);
+        addText('• Al Muhaideb National', 10, false, [60, 60, 60]);
+
+        pdf.addPage();
+        yPos = margin;
+
+        addText('6. STRATEGIC RECOMMENDATIONS', 18, true);
+        yPos += 5;
+        addText('SHORT-TERM:', 12, true, [243, 156, 18]);
+        addText('• Strengthen digital marketing', 10, false, [60, 60, 60]);
+        addText('• Enhance e-commerce platform', 10, false, [60, 60, 60]);
+        addText('• Implement CRM systems', 10, false, [60, 60, 60]);
+
+        yPos += 5;
+        addText('MEDIUM-TERM:', 12, true, [39, 174, 96]);
+        addText('• Develop AI-powered operational improvements', 10, false, [60, 60, 60]);
+        addText('• Expand product portfolio', 10, false, [60, 60, 60]);
+        addText('• Establish export channels', 10, false, [60, 60, 60]);
+
+        yPos += 5;
+        addText('LONG-TERM:', 12, true, [44, 73, 153]);
+        addText('• Formalize family governance', 10, false, [60, 60, 60]);
+        addText('• Develop next-generation leadership', 10, false, [60, 60, 60]);
+        addText('• Pursue sustainability certifications', 10, false, [60, 60, 60]);
+
+        yPos += 15;
+        addText('7. CONCLUSION', 18, true);
+        yPos += 5;
+        addText('Al Zamil is well-positioned to capitalize on Saudi Arabia\'s unprecedented infrastructure investment cycle. Success will depend on balancing family business values with professional governance, embracing digital transformation, and maintaining technological leadership in manufacturing excellence.', 11, false, [60, 60, 60]);
+
+        // Footer on last page
+        pdf.setFontSize(8);
+        pdf.setTextColor(150, 150, 150);
+        pdf.text('Al Zamil Market Analysis Report | Team 14 | MBSC', pageWidth/2, pageHeight - 10, {align: 'center'});
+
+        // Save
+        pdf.save('Al_Zamil_Market_Analysis_Report.pdf');
+
+    } catch (error) {
+        console.error('PDF generation error:', error);
+        alert('Error generating PDF. Please try printing instead.');
+    }
+
+    loading.classList.remove('active');
+}
+
+// ========================================
+// AI CHAT ASSISTANT
+// ========================================
+const knowledgeBase = {
+    company: {
+        keywords: ['zamil', 'company', 'about', 'what is', 'who', 'overview', 'business'],
+        response: `<strong>Al Zamil for Industry, Trading and Transport</strong> is a Saudi family business established in <strong>1985</strong>. It has grown to become the <strong>largest and leading polyethylene water tank manufacturer</strong> in Saudi Arabia.<br><br>
+        <strong>Key Facts:</strong><br>
+        • Founded: 1985<br>
+        • Headquarters: Saudi Arabia<br>
+        • 5 Regional Branches (Northern, Central, Eastern, Western, Southern)<br>
+        • Tank capacity: 100,000+ liters<br>
+        • Website: zamilco.com`
+    },
+    history: {
+        keywords: ['history', 'founded', 'when', 'timeline', 'evolution', '1985', '1997', '2017'],
+        response: `<strong>Al Zamil Company Timeline:</strong><br><br>
+        <strong>1985 - Founding:</strong> Established as a building materials trading company specializing in steel, cement, water tanks, and insulation.<br><br>
+        <strong>1997 - Manufacturing Integration:</strong> Established own manufacturing facility, shifting from pure trading to vertical integration.<br><br>
+        <strong>2017 - Technology Advancement:</strong> Introduced revolutionary blow-molding technology, the most efficient method for manufacturing tanks.<br><br>
+        <strong>Present:</strong> The largest polyethylene water tank factory in Saudi Arabia.`
+    },
+    products: {
+        keywords: ['product', 'products', 'tank', 'tanks', 'sell', 'manufacture', 'offer'],
+        response: `<strong>Al Zamil Product Portfolio:</strong><br><br>
+        • Polyethylene water tanks (above-ground & underground)<br>
+        • Water heaters and pumps<br>
+        • Automatic doors and water filters<br>
+        • Electrical floaters<br>
+        • PP-R pipes & fittings<br>
+        • Manhole covers<br>
+        • Water and heat insulation solutions (polyurethane & polyurea)`
+    },
+    market: {
+        keywords: ['market', 'size', 'growth', 'industry', 'sector', 'billion', 'construction'],
+        response: `<strong>Saudi Market Overview:</strong><br><br>
+        <strong>Construction Market:</strong><br>
+        • 2024: $70.4 Billion<br>
+        • 2030: $97.4 Billion (5.6% CAGR)<br><br>
+        <strong>Key Figures:</strong><br>
+        • Projects Pipeline: $2.1 Trillion<br>
+        • Water Investment: $80 Billion<br>
+        • Urbanization: 83% (36M population)<br>
+        • Housing Need: 2.6M units by 2030<br><br>
+        Vision 2030 mega-projects (NEOM, Red Sea Project, Qiddiya) are driving unprecedented demand.`
+    },
+    strengths: {
+        keywords: ['strength', 'strengths', 'advantage', 'strong', 'good'],
+        response: `<strong>Al Zamil Key Strengths:</strong><br><br>
+        ✅ Market leadership in polyethylene tanks<br>
+        ✅ Advanced blow-molding technology (since 2017)<br>
+        ✅ Nationwide distribution (5 regional branches)<br>
+        ✅ Vertical integration (manufacturing + trading)<br>
+        ✅ 40+ years industry experience<br>
+        ✅ SABIC-quality raw materials<br>
+        ✅ 10-year warranty on products`
+    },
+    weaknesses: {
+        keywords: ['weakness', 'weaknesses', 'challenge', 'weak', 'problem', 'issue'],
+        response: `<strong>Al Zamil Weaknesses:</strong><br><br>
+        ⚠️ Limited digital presence vs. potential<br>
+        ⚠️ Dependency on petrochemical raw material pricing<br>
+        ⚠️ Brand recognition outside core markets<br>
+        ⚠️ Family business governance maturity<br><br>
+        These areas represent opportunities for improvement and strategic focus.`
+    },
+    opportunities: {
+        keywords: ['opportunity', 'opportunities', 'growth', 'potential', 'future'],
+        response: `<strong>Growth Opportunities:</strong><br><br>
+        🚀 Vision 2030 infrastructure boom<br>
+        🚀 $80B water security investments<br>
+        🚀 Digital transformation potential<br>
+        🚀 Export to GCC markets<br>
+        🚀 Sustainable/smart product development<br>
+        🚀 AI/IoT integration in products<br><br>
+        The Saudi government's massive investment in water infrastructure creates significant opportunity.`
+    },
+    threats: {
+        keywords: ['threat', 'threats', 'risk', 'risks', 'danger', 'competition'],
+        response: `<strong>Market Threats:</strong><br><br>
+        ⚡ Increased competition from imports<br>
+        ⚡ Raw material price volatility<br>
+        ⚡ Economic fluctuations affecting construction<br>
+        ⚡ New entrants with advanced technology<br>
+        ⚡ Succession and governance risks<br><br>
+        Proactive risk management and strategic planning are essential.`
+    },
+    swot: {
+        keywords: ['swot', 'analysis'],
+        response: `<strong>SWOT Analysis Summary:</strong><br><br>
+        <strong style="color:#27ae60">STRENGTHS:</strong> Market leader, advanced technology, nationwide presence, vertical integration<br><br>
+        <strong style="color:#e74c3c">WEAKNESSES:</strong> Limited digital presence, raw material dependency, governance maturity<br><br>
+        <strong style="color:#2c4999">OPPORTUNITIES:</strong> Vision 2030, $80B water investment, digital transformation, GCC expansion<br><br>
+        <strong style="color:#f39c12">THREATS:</strong> Import competition, price volatility, new entrants, succession risks`
+    },
+    competitors: {
+        keywords: ['competitor', 'competitors', 'competition', 'rival', 'versus', 'vs'],
+        response: `<strong>Main Competitors:</strong><br><br>
+        1. <strong>SAWACO Water Company</strong> - Established brand, diversified portfolio<br>
+        2. <strong>National Polyethylene Co.</strong> - Strong manufacturing capabilities<br>
+        3. <strong>Marjan Factory</strong> - 25+ years, ISO 9001:2015 certified<br>
+        4. <strong>Saudi Polycon</strong> - Operating since 1998<br>
+        5. <strong>Al Muhaideb National</strong> - SABIC materials, SASO compliance<br><br>
+        <strong>Al Zamil's Competitive Edge:</strong> Largest scale, advanced blow-molding tech, nationwide distribution.`
+    },
+    recommendations: {
+        keywords: ['recommend', 'recommendation', 'strategy', 'strategic', 'should', 'advice', 'suggestion'],
+        response: `<strong>Strategic Recommendations:</strong><br><br>
+        <strong style="color:#f39c12">SHORT-TERM:</strong><br>
+        • Strengthen digital marketing<br>
+        • Enhance e-commerce platform<br>
+        • Implement CRM systems<br><br>
+        <strong style="color:#27ae60">MEDIUM-TERM:</strong><br>
+        • Develop AI-powered operations<br>
+        • Expand product portfolio<br>
+        • Establish export channels<br><br>
+        <strong style="color:#2c4999">LONG-TERM:</strong><br>
+        • Formalize family governance<br>
+        • Develop next-gen leadership<br>
+        • Pursue sustainability certifications`
+    },
+    vision2030: {
+        keywords: ['vision', '2030', 'neom', 'mega', 'project', 'saudi'],
+        response: `<strong>Vision 2030 Impact:</strong><br><br>
+        Saudi Arabia's Vision 2030 creates massive opportunities:<br><br>
+        • <strong>NEOM:</strong> $500B+ futuristic city project<br>
+        • <strong>Red Sea Project:</strong> Luxury tourism destination<br>
+        • <strong>Qiddiya:</strong> Entertainment city<br>
+        • <strong>Urban Expansion:</strong> Riyadh & Jeddah development<br><br>
+        All these projects require significant water storage infrastructure, directly benefiting Al Zamil's core business.`
+    },
+    family: {
+        keywords: ['family', 'business', 'succession', 'governance', 'generation'],
+        response: `<strong>Family Business Context:</strong><br><br>
+        • 90% of Saudi corporations are family-owned<br>
+        • 57% of private sector workforce employed<br>
+        • 59% lack succession plans<br>
+        • 75% have no family charters<br><br>
+        Al Zamil, as a family business, should prioritize:<br>
+        ✓ Formalizing governance structures<br>
+        ✓ Developing succession plans<br>
+        ✓ Creating family charter<br>
+        ✓ Professional management integration`
+    },
+    pestel: {
+        keywords: ['pestel', 'political', 'economic', 'social', 'technological', 'environmental', 'legal'],
+        response: `<strong>PESTEL Analysis:</strong><br><br>
+        <strong>P</strong>olitical: Stable government, Vision 2030 commitment<br>
+        <strong>E</strong>conomic: $2.1T project pipeline, diversification from oil<br>
+        <strong>S</strong>ocial: 36M population, 83% urbanization<br>
+        <strong>T</strong>echnological: Digital transformation, Industry 4.0<br>
+        <strong>E</strong>nvironmental: Water scarcity, 90% desalination target<br>
+        <strong>L</strong>egal: Evolving regulations, Nitaqat compliance`
+    },
+    technology: {
+        keywords: ['technology', 'tech', 'digital', 'ai', 'iot', 'innovation', 'blow-molding'],
+        response: `<strong>Technology & Innovation:</strong><br><br>
+        <strong>Current Technology:</strong><br>
+        • Advanced roto-molding machinery<br>
+        • Blow-molding technology (2017)<br>
+        • E-commerce platform (store.zamilco.com)<br><br>
+        <strong>AI Opportunities:</strong><br>
+        • Predictive maintenance (High Impact)<br>
+        • Demand forecasting (High Impact)<br>
+        • Quality control with computer vision<br>
+        • Route optimization<br>
+        • Customer service automation`
+    },
+    financial: {
+        keywords: ['financial', 'finance', 'revenue', 'profit', 'money', 'investment'],
+        response: `<strong>Financial Overview:</strong><br><br>
+        <strong>Sector Benchmarks:</strong><br>
+        • Gross Margins: 25-35%<br>
+        • Operating Margins: 10-15%<br><br>
+        <strong>Market Growth:</strong><br>
+        • Construction 2024: $70.4B<br>
+        • Construction 2030: $97.4B<br>
+        • RE Transaction Growth: 38%<br>
+        • H1 2024 RE Value: $34B<br><br>
+        Typical family business characteristics: conservative debt, profit reinvestment.`
+    },
+    team: {
+        keywords: ['team', 'member', 'who made', 'created', 'authors', 'prepared'],
+        response: `<strong>Report Prepared by Team 14:</strong><br><br>
+        • Ghadah Ahmed Alamri<br>
+        • Hashan Hamad Almehethel<br>
+        • Mohammed Alhammad<br>
+        • Yousef Aljehani<br>
+        • Abdulaziz Alayaf<br>
+        • Omar Alabdulwahab<br>
+        • Fahad Binsareean<br>
+        • Reem Albdulmunim<br><br>
+        <em>Prince Mohammed Bin Salman College (MBSC)<br>IMC/IFC Challenge 2025-2026</em>`
+    }
+};
+
+function toggleChat() {
+    document.getElementById('chatBox').classList.toggle('active');
+}
+
+function handleKeyPress(event) {
+    if (event.key === 'Enter') sendMessage();
+}
+
+function askQuestion(question) {
+    document.getElementById('chatInput').value = question;
+    sendMessage();
+}
+
+function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    if (!message) return;
+
+    addMessage(message, 'user');
+    input.value = '';
+
+    // Hide suggestions after first message
+    document.getElementById('chatSuggestions').style.display = 'none';
+
+    // Show typing indicator
+    const typing = document.createElement('div');
+    typing.className = 'chat-message bot typing';
+    typing.innerHTML = '<span></span><span></span><span></span>';
+    document.getElementById('chatMessages').appendChild(typing);
+    scrollChat();
+
+    // Generate response
+    setTimeout(() => {
+        typing.remove();
+        const response = generateResponse(message);
+        addMessage(response, 'bot');
+    }, 800 + Math.random() * 700);
+}
+
+function addMessage(text, type) {
+    const msg = document.createElement('div');
+    msg.className = `chat-message ${type}`;
+    msg.innerHTML = text;
+    document.getElementById('chatMessages').appendChild(msg);
+    scrollChat();
+}
+
+function scrollChat() {
+    const container = document.getElementById('chatMessages');
+    container.scrollTop = container.scrollHeight;
+}
+
+function generateResponse(query) {
+    const q = query.toLowerCase();
+
+    // Check each knowledge category
+    for (const [key, data] of Object.entries(knowledgeBase)) {
+        if (data.keywords.some(kw => q.includes(kw))) {
+            return data.response;
+        }
+    }
+
+    // Default response
+    return `I understand you're asking about "${query}". Here's what I can help with:<br><br>
+    • <strong>Company info:</strong> "What is Al Zamil?"<br>
+    • <strong>Market data:</strong> "What is the market size?"<br>
+    • <strong>SWOT analysis:</strong> "What are the strengths?"<br>
+    • <strong>Strategy:</strong> "What are the recommendations?"<br>
+    • <strong>Competitors:</strong> "Who are the competitors?"<br><br>
+    Try asking one of these questions!`;
+}
 </script>
 
 </body>
